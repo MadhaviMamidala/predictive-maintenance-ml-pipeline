@@ -1,0 +1,40 @@
+# Stage 1: Build stage with all dependencies
+FROM python:3.11-slim as builder
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.prod.txt .
+RUN pip install --no-cache-dir -r requirements.prod.txt
+
+# Copy application files
+COPY ./src /app/src
+COPY ./models /app/models
+COPY ./model_metrics.json /app/
+
+# Stage 2: Final production stage
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy installed packages from the builder stage
+COPY --from=builder /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
+
+# Copy application files from the builder stage
+COPY --from=builder /app/src /app/src
+COPY --from=builder /app/models /app/models
+COPY --from=builder /app/model_metrics.json /app/
+
+# Copy start script
+COPY ./scripts/start.sh /app/start.sh
+COPY ./scripts/healthcheck.py /app/healthcheck.py
+
+# Grant execute permissions to the start script
+RUN chmod +x /app/start.sh
+RUN chmod +x /app/healthcheck.py
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Set the entrypoint to our script
+ENTRYPOINT ["/app/start.sh"] 

@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  predictive-maintenance-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: mllifecycle-api-1
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      - monitoring-net
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/python", "/app/healthcheck.py"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mllifecycle-prometheus-1
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitoring-net
+    depends_on:
+      predictive-maintenance-api:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mllifecycle-grafana-1
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - monitoring-net
+    depends_on:
+      - prometheus
+
+networks:
+  monitoring-net:
+    driver: bridge 

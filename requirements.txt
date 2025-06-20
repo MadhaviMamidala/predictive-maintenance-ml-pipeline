@@ -2,10 +2,14 @@
 boto3>=1.26.0
 awscli>=1.27.0
 
+
 # Data Processing
-pandas>=1.5.0
-numpy>=1.21.0
-scikit-learn>=1.0.0
+pandas>=1.3.0
+numpy>=1.20.0
+scikit-learn>=0.24.2
+pydantic>=2.0.0
+python-dateutil>=2.8.2
+pytz>=2020.1
 
 # ETL & Validation
 apache-airflow>=2.5.0
@@ -18,15 +22,54 @@ torch>=1.13.0
 sagemaker>=2.150.0
 
 # Monitoring
-prometheus-client>=0.16.0
-##grafana-api-client>=1.0.3 nt needed for now
+prometheus-client>=0.11.0
+
+# Security & Authentication
+redis>=6.2.0
+pyjwt>=2.8.0
+passlib>=1.7.4
+python-multipart>=0.0.5
 
 # Utilities
-python-dotenv>=0.21.0
+python-dotenv>=0.19.0
 requests>=2.28.0
 docker>=6.0.0
 jupyter>=1.0.0
 
 # Testing
-pytest>=7.3.0
-pytest-cov>=4.0.0 
+pytest>=6.2.5
+pytest-cov>=2.12.0
+pytest-asyncio>=0.21.0
+
+# Added from the code block
+xgboost>=1.4.0
+joblib>=1.0.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+tabulate>=0.8.9
+kfp>=2.0.0
+google-cloud-storage>=2.2.1
+kubernetes>=8.0.0
+fastapi>=0.68.0
+uvicorn>=0.15.0
+black>=21.7b0
+flake8>=3.9.0
+mypy>=0.910
+isort>=5.9.0
+pre-commit>=2.15.0
+mlflow>=1.20.0
+grafana-api-client==0.2.0
+
+# Added from the code block
+alibi-detect>=0.11.0  # For data drift detection
+
+# Development Tools
+bandit>=1.7.0  # Security linting
+safety>=2.3.0  # Dependency vulnerability scanning 
+
+# New additions from the code block
+requests==2.31.0
+scikit-learn==1.4.2
+scipy==1.13.0
+uvicorn==0.29.0
+redis==6.2.0 

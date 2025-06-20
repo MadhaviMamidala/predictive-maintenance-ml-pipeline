@@ -1,0 +1,23 @@
+{
+  "best_params": {
+    "bootstrap": true,
+    "max_depth": 10,
+    "min_samples_leaf": 1,
+    "min_samples_split": 2,
+    "n_estimators": 200
+  },
+  "accuracy": 0.85,
+  "precision": 0.7224999999999999,
+  "recall": 0.85,
+  "f1_score": 0.7810810810810811,
+  "feature_importance": {
+    "volt": 0.20944992327515843,
+    "rotate": 0.19488516702312655,
+    "pressure": 0.2198485234519114,
+    "vibration": 0.20937271443479974,
+    "age": 0.16644367181500389
+  },
+  "training_samples": 160,
+  "test_samples": 40,
+  "total_features": 5
+}

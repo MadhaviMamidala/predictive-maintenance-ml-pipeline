@@ -8,7 +8,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -20,62 +19,78 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+#  Usually these files are written by a PyInstaller script; this is redundant.
+#  PyInstaller builds Old messes.
 *.manifest
 *.spec
 
-# Installer logs
-debug.log
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
+# Pytest
+.pytest_cache/
 .coverage
 .coverage.*
-.cache
-nosetests.xml
 coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
+htmlcov/
+.tox/
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# pyenv
-.python-version
-
-# pipenv
-Pipfile.lock
-
-# mypy
-.mypy_cache/
-.dmypy.json
-
-# Pyre type checker
-.pyre/
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # VS Code
 .vscode/
 
-# Data and models
-data/raw/
-data/*.csv
-models/
+# Docker
+docker-compose.override.yml
+docker-compose.yml
 
-# Environment variables
-.env
-*.env
+# Logs and databases
+*.log
+*.sql
+*.sqlite3
+*.db
+*.db-journal
+background_monitor.log
+continuous_monitor.log
+monitoring.log
+project_organization.log
+project_organization_v2.log
 
-# Mac
+# OS-generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Windows
-Thumbs.db 
+# Reports and artifacts - good to keep locally but not in git
+reports_and_artifacts/
+model_metrics.json
+organization_report.json
+
+# Backup directories
+backup_before_organization_*/
+
+# Local scripts
+generate_accuracy_data.py
+generate_confidence_data.py
+test_api_simple.py
+organize_project_v2.py
