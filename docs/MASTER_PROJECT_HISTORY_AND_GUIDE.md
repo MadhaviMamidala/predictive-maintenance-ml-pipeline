@@ -143,41 +143,7 @@ This section chronicles the detailed, step-by-step evolution of the project, inc
 
 This diagram represents the final, unified architecture of the CoreDefender MLOps project, showing the complete flow from raw data to a fully monitored, live predictive service.
 
-```mermaid
-graph TD
-    subgraph "Data & Model Factory (Offline Preparation)"
-        direction LR
-        RawDataSource["fa:fa-file-csv Raw Data CSV"] --> ETLScript["fa:fa-filter ETL Script"]
-        ETLScript --> ProcessedData["fa:fa-check-circle Processed Data"]
-        ProcessedData --> TrainingScript["fa:fa-cogs Model Training & Tuning"]
-        TrainingScript --> ModelArtifacts["fa:fa-archive Model Artifacts"]
-    end
-
-    subgraph "Live Production Environment (Docker)"
-        APIServer["fa:fa-server FastAPI Server"]
-        Prometheus["fa:fa-fire Prometheus Server"]
-        Grafana["fa:fa-chart-bar Grafana Server"]
-        LiveDashboards["fa:fa-tachometer-alt Live MLOps Dashboards"]
-    end
-    
-    subgraph "System Actors"
-        User["fa:fa-user User / Client App"]
-        MLOpsEngineer["fa:fa-user-cog MLOps Engineer"]
-    end
-
-    ModelArtifacts -- "Deploys To" --> APIServer
-    
-    User -- "POST /predict" --> APIServer
-    APIServer -- "Returns Prediction" --> User
-
-    User -.->|Feedback| APIServer
-
-    APIServer -- "Exposes /metrics" --> Prometheus
-    Prometheus -- "Scrapes" --> APIServer
-    Prometheus -- "Data Source For" --> Grafana
-    Grafana -- "Renders" --> LiveDashboards
-    LiveDashboards -- "Viewed By" --> MLOpsEngineer
-```
+![System Architecture](architecture.png)
 
 ### Architecture Explained:
 - **Data & Model Factory:** The offline pipeline where raw data is cleaned and used by the `train_random_forest.py` script (with `GridSearchCV`) to produce the optimized model artifacts.
