@@ -18,27 +18,7 @@ This document is a comprehensive, step-by-step, historical and technical guide f
 ## 2. High-Level Architecture (2025)
 
 ```
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│   Client     │   │   Nginx      │   │   FastAPI    │
-│   (User/UI)  │-->|  (SSL, LB)   |-->|  API Server  │
-└──────────────┘   └──────────────┘   └──────────────┘
-                                         │
-                                         ▼
-                                ┌────────────────────┐
-                                │   Model Inference  │
-                                └────────────────────┘
-                                         │
-                                         ▼
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ Prometheus  │<--│   Metrics    │<--│   API        │-->|   PostgreSQL │
-│ (Monitoring)|   │   Exporter   │   │   Logging    │   │   (DB)       │
-└──────────────┘   └──────────────┘   └──────────────┘   └──────────────┘
-                                         │
-                                         ▼
-                                ┌──────────────┐
-                                │   Grafana    │
-                                │ (Dashboards) │
-                                └──────────────┘
+
 ```
 
 - **Nginx**: SSL termination, reverse proxy, rate limiting, security headers.
@@ -60,11 +40,11 @@ This section chronicles the detailed, step-by-step evolution of the project, inc
 - **Goal:** Establish a reproducible environment and prepare the data for training.
 - **Reasoning:** A clean environment prevents dependency conflicts, and clean data is the cornerstone of any reliable model.
 - **Commands Used:**
-  ```bash
+```bash
   # Create and activate a virtual environment
   python -m venv .venv
   .venv\Scripts\activate
-  # Install dependencies
+# Install dependencies
   pip install -r requirements.txt
   # Run the ETL script to process raw data
   python src/etl/etl_cleaning.py
@@ -74,7 +54,7 @@ This section chronicles the detailed, step-by-step evolution of the project, inc
 - **Goal:** Train an initial `RandomForestClassifier` to establish a performance baseline.
 - **Reasoning:** Starting with a simple, baseline model allows us to measure the impact of future improvements, such as hyperparameter tuning.
 - **Commands Used:**
-  ```bash
+```bash
   python src/training/train_random_forest.py
   ```
 - **Outcome:** This created the first `best_model.pkl`, which, while functional, was not yet optimized for peak performance.
@@ -88,7 +68,7 @@ This section chronicles the detailed, step-by-step evolution of the project, inc
   2.  **Process:** We defined a "grid" of potential hyperparameter values (e.g., `n_estimators`, `max_depth`). `GridSearchCV` then exhaustively trained and evaluated a model for every possible combination in this grid, using 3-fold cross-validation to ensure the results were statistically significant.
   3.  **Result:** The process automatically identified the single best combination of hyperparameters, trained a final model with these settings, and overwrote the baseline `best_model.pkl` with this new, superior version.
 - **Commands Used:**
-  ```bash
+```bash
   # This single command now runs the entire optimization process
   python src/training/train_random_forest.py
   ```
@@ -109,7 +89,7 @@ This section chronicles the detailed, step-by-step evolution of the project, inc
 #### 3.3.2. Launching the Full Stack
 - **Goal:** Start all services (API, Prometheus, Grafana) together.
 - **Commands Used:**
-  ```bash
+```bash
   # Ensure Docker Desktop is running
   # Start the entire production stack in detached mode
   docker-compose -f docker-compose.prod.yml up -d
@@ -126,7 +106,7 @@ This section chronicles the detailed, step-by-step evolution of the project, inc
 #### 3.3.4. System Verification and Health Checks
 - **Goal:** Ensure all parts of the live system are working perfectly.
 - **Commands Used:**
-  ```bash
+```bash
   # Check the status of all running containers
   docker ps
   # Run a dedicated script to check the API's health endpoint
